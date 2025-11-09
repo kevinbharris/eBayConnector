@@ -1,9 +1,23 @@
 <?php
-
 return [
     [
-        'key'  => 'sales.carriers.ebayconnector',
+        'key'  => 'online_merchants',
+        'name' => 'Online Merchants',
+        'info' => 'Synchronize your orders and products between Bagisto and Online Merchants',
+        'sort' => 0,
+        'icon' => 'settings/store.svg',
+    ],
+    [
+        'key'  => 'online_merchants.ebay_connector',
         'name' => 'eBay Connector',
+        'icon' => 'settings/store.svg',
+        'info' => 'Manage all primary configuration settings for the eBay Connector.',
+        'sort' => 0,
+    ],
+    [
+        'key'  => 'online_merchants.ebay_connector.api',
+        'name' => 'API and Connection',
+        'info' => 'Configure connection details, credentials, and module activation.',
         'sort' => 0,
         'fields' => [
             [
@@ -72,8 +86,9 @@ return [
         ],
     ],
     [
-        'key'  => 'sales.carriers.ebayconnector.sync',
+        'key'  => 'online_merchants.ebay_connector.sync',
         'name' => 'ebayconnector::app.configuration.sync_settings',
+        'info' => 'Automate product and order synchronization settings.',
         'sort' => 1,
         'fields' => [
             [
@@ -101,8 +116,9 @@ return [
         ],
     ],
     [
-        'key'  => 'sales.carriers.ebayconnector.product_sync',
+        'key'  => 'online_merchants.ebay_connector.product_sync',
         'name' => 'ebayconnector::app.configuration.product_sync_settings',
+        'info' => 'Configure product synchronization behavior.',
         'sort' => 2,
         'fields' => [
             [
@@ -138,30 +154,12 @@ return [
                 'title'         => 'ebayconnector::app.configuration.default_listing_duration',
                 'type'          => 'select',
                 'options'       => [
-                    [
-                        'title' => 'Good Till Cancelled (GTC)',
-                        'value' => 'GTC',
-                    ],
-                    [
-                        'title' => '3 Days',
-                        'value' => 'Days_3',
-                    ],
-                    [
-                        'title' => '5 Days',
-                        'value' => 'Days_5',
-                    ],
-                    [
-                        'title' => '7 Days',
-                        'value' => 'Days_7',
-                    ],
-                    [
-                        'title' => '10 Days',
-                        'value' => 'Days_10',
-                    ],
-                    [
-                        'title' => '30 Days',
-                        'value' => 'Days_30',
-                    ],
+                    [ 'title' => 'Good Till Cancelled (GTC)', 'value' => 'GTC' ],
+                    [ 'title' => '3 Days', 'value' => 'Days_3' ],
+                    [ 'title' => '5 Days', 'value' => 'Days_5' ],
+                    [ 'title' => '7 Days', 'value' => 'Days_7' ],
+                    [ 'title' => '10 Days', 'value' => 'Days_10' ],
+                    [ 'title' => '30 Days', 'value' => 'Days_30' ],
                 ],
                 'channel_based' => true,
                 'locale_based'  => false,
@@ -177,8 +175,9 @@ return [
         ],
     ],
     [
-        'key'  => 'sales.carriers.ebayconnector.order_sync',
+        'key'  => 'online_merchants.ebay_connector.order_sync',
         'name' => 'ebayconnector::app.configuration.order_sync_settings',
+        'info' => 'Configure order synchronization and status.',
         'sort' => 3,
         'fields' => [
             [
@@ -207,18 +206,9 @@ return [
                 'title'         => 'ebayconnector::app.configuration.default_order_status',
                 'type'          => 'select',
                 'options'       => [
-                    [
-                        'title' => 'Pending',
-                        'value' => 'pending',
-                    ],
-                    [
-                        'title' => 'Processing',
-                        'value' => 'processing',
-                    ],
-                    [
-                        'title' => 'Completed',
-                        'value' => 'completed',
-                    ],
+                    [ 'title' => 'Pending',    'value' => 'pending' ],
+                    [ 'title' => 'Processing', 'value' => 'processing' ],
+                    [ 'title' => 'Completed',  'value' => 'completed' ],
                 ],
                 'channel_based' => true,
                 'locale_based'  => false,
@@ -226,8 +216,9 @@ return [
         ],
     ],
     [
-        'key'  => 'sales.carriers.ebayconnector.logging',
+        'key'  => 'online_merchants.ebay_connector.logging',
         'name' => 'ebayconnector::app.configuration.logging_settings',
+        'info' => 'Configure logging and retention for eBay Connector.',
         'sort' => 4,
         'fields' => [
             [

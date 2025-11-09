@@ -48,7 +48,7 @@ class LogController extends Controller
      */
     public function clear(): JsonResponse
     {
-        $retentionDays = core()->getConfigData('sales.carriers.ebayconnector.logging.retention_days') ?? 30;
+        $retentionDays = core()->getConfigData('online_merchants.ebay_connector.logging.retention_days') ?? 30;
         
         $deleted = EbaySyncLog::where('created_at', '<', now()->subDays($retentionDays))
             ->delete();

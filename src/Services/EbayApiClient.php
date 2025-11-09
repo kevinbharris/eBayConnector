@@ -17,9 +17,9 @@ class EbayApiClient
 
     public function __construct(?string $apiKey = null, ?string $apiSecret = null, ?string $environment = 'sandbox')
     {
-        $this->apiKey = $apiKey ?? core()->getConfigData('sales.carriers.ebayconnector.api_key');
-        $this->apiSecret = $apiSecret ?? core()->getConfigData('sales.carriers.ebayconnector.api_secret');
-        $this->environment = $environment ?? core()->getConfigData('sales.carriers.ebayconnector.environment') ?? 'sandbox';
+        $this->apiKey = $apiKey ?? core()->getConfigData('online_merchants.ebay_connector.api.api_key');
+        $this->apiSecret = $apiSecret ?? core()->getConfigData('online_merchants.ebay_connector.api.api_secret');
+        $this->environment = $environment ?? core()->getConfigData('online_merchants.ebay_connector.api.environment') ?? 'sandbox';
         
         $apiEndpoint = $this->environment === 'production' 
             ? config('ebayconnector.api_endpoints.production')
