@@ -4,7 +4,7 @@ return [
         'key'  => 'online_merchants',
         'name' => 'Online Merchants',
         'info' => 'Synchronize your orders and products between Bagisto and Online Merchants',
-        'sort' => 0,
+        'sort' => 6,
         'icon' => 'settings/store.svg',
     ],
     [
