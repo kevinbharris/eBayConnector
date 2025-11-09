@@ -134,7 +134,7 @@ class ProductSyncService
      */
     public function syncAllToEbay(): array
     {
-        $products = Product::where('is_active', 1)->get();
+        $products = Product::all();
         $productIds = $products->pluck('id')->toArray();
         
         return $this->syncMultipleToEbay($productIds);
