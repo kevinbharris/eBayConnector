@@ -111,10 +111,6 @@
                             value="1"
                             :checked="old('auto_sync_products', $configurations['auto_sync_products'] ?? false)"
                         />
-
-                        <x-admin::form.control-group.hint>
-                            @lang('Automatically sync products when they are created or updated')
-                        </x-admin::form.control-group.hint>
                     </x-admin::form.control-group>
 
                     <x-admin::form.control-group>
@@ -129,10 +125,6 @@
                             value="1"
                             :checked="old('auto_sync_orders', $configurations['auto_sync_orders'] ?? false)"
                         />
-
-                        <x-admin::form.control-group.hint>
-                            @lang('Automatically sync orders from eBay')
-                        </x-admin::form.control-group.hint>
                     </x-admin::form.control-group>
 
                     <x-admin::form.control-group>
