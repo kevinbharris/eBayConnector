@@ -61,6 +61,8 @@ class EbayConnectorServiceProvider extends ServiceProvider
             'middleware' => ['web']
         ], function () {
             Route::get('ebay/oauth/callback', [\KevinBHarris\EbayConnector\Http\Controllers\AuthController::class, 'callback'])->name('ebay.oauth.callback');
+            Route::get('ebay/auth/accepted', [\KevinBHarris\EbayConnector\Http\Controllers\AuthController::class, 'accepted'])->name('ebay.auth.accepted');
+            Route::get('ebay/auth/rejected', [\KevinBHarris\EbayConnector\Http\Controllers\AuthController::class, 'rejected'])->name('ebay.auth.rejected');
         });
         
         // Load views

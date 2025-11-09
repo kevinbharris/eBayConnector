@@ -120,29 +120,37 @@ For more details on the configuration migration, see [CONFIGURATION_MIGRATION.md
 
 #### Setting Up OAuth Callback
 
-The package provides a public OAuth callback endpoint for eBay authentication:
+The package provides public OAuth endpoints for eBay authentication:
 
-**Callback URL**: `https://yourdomain.com/ebay/oauth/callback`
+**Available OAuth Endpoints**:
+- **Callback URL**: `https://yourdomain.com/ebay/oauth/callback`
+- **Accepted URL**: `https://yourdomain.com/ebay/auth/accepted`
+- **Rejected URL**: `https://yourdomain.com/ebay/auth/rejected`
 
 To configure OAuth for your eBay application:
 
 1. Log in to the [eBay Developer Portal](https://developer.ebay.com/)
 2. Go to your application settings
-3. Under **OAuth Redirect URLs**, add your callback URL:
-   - For production: `https://yourdomain.com/ebay/oauth/callback`
-   - For sandbox/testing: `https://yourdomain.test/ebay/oauth/callback`
+3. Under **OAuth Redirect URLs**, add your callback URLs:
+   - For production: 
+     - `https://yourdomain.com/ebay/oauth/callback`
+     - `https://yourdomain.com/ebay/auth/accepted`
+     - `https://yourdomain.com/ebay/auth/rejected`
+   - For sandbox/testing: 
+     - `https://yourdomain.test/ebay/oauth/callback`
+     - `https://yourdomain.test/ebay/auth/accepted`
+     - `https://yourdomain.test/ebay/auth/rejected`
 4. Save your application settings
 
-#### Testing the OAuth Callback
+#### Testing the OAuth Endpoints
 
-You can test the OAuth callback endpoint by accessing:
+**Test the main OAuth callback:**
 
 ```
 GET /ebay/oauth/callback?code=YOUR_AUTH_CODE
 ```
 
-The endpoint will respond with a JSON indicating success or failure:
-
+Response:
 ```json
 {
   "success": true,
@@ -152,7 +160,40 @@ The endpoint will respond with a JSON indicating success or failure:
 }
 ```
 
-**Note**: This endpoint is publicly accessible (no authentication required) so that eBay can redirect users back after authorization. The callback currently accepts the authorization code and can be extended to exchange it for access tokens.
+**Test the accepted endpoint:**
+
+```
+GET /ebay/auth/accepted?code=YOUR_AUTH_CODE&state=YOUR_STATE
+```
+
+Response:
+```json
+{
+  "success": true,
+  "message": "OAuth authorization accepted",
+  "code": "YOUR_AUTH_CODE",
+  "state": "YOUR_STATE",
+  "note": "Authorization processing logic can be implemented here"
+}
+```
+
+**Test the rejected endpoint:**
+
+```
+GET /ebay/auth/rejected?error=access_denied
+```
+
+Response:
+```json
+{
+  "success": false,
+  "message": "OAuth authorization rejected by user",
+  "error": "access_denied",
+  "error_description": "User declined the authorization request"
+}
+```
+
+**Note**: These endpoints are publicly accessible (no authentication required) so that eBay can redirect users back after authorization. The endpoints currently accept authorization codes and can be extended with token exchange and processing logic.
 
 ### 4. Environment Variables (Optional)
 

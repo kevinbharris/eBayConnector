@@ -57,4 +57,64 @@ class AuthController extends Controller
             'note' => 'Token exchange logic can be implemented here',
         ]);
     }
+
+    /**
+     * Handle OAuth acceptance from eBay.
+     * 
+     * This endpoint is called when the user successfully accepts the OAuth authorization.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function accepted(Request $request): JsonResponse
+    {
+        // Get any parameters from the request
+        $code = $request->query('code');
+        $state = $request->query('state');
+
+        // TODO: Process the accepted authorization
+        // This is where you would:
+        // 1. Verify the state parameter (if using CSRF protection)
+        // 2. Exchange the code for tokens
+        // 3. Store the tokens
+        // 4. Update user's authorization status
+
+        return response()->json([
+            'success' => true,
+            'message' => 'OAuth authorization accepted',
+            'code' => $code,
+            'state' => $state,
+            'note' => 'Authorization processing logic can be implemented here',
+        ]);
+    }
+
+    /**
+     * Handle OAuth rejection from eBay.
+     * 
+     * This endpoint is called when the user denies the OAuth authorization.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function rejected(Request $request): JsonResponse
+    {
+        // Get error information from the request
+        $error = $request->query('error');
+        $errorDescription = $request->query('error_description');
+        $state = $request->query('state');
+
+        // TODO: Process the rejected authorization
+        // This is where you would:
+        // 1. Log the rejection
+        // 2. Update user's authorization status
+        // 3. Optionally redirect to a user-friendly page
+
+        return response()->json([
+            'success' => false,
+            'message' => 'OAuth authorization rejected by user',
+            'error' => $error ?? 'authorization_rejected',
+            'error_description' => $errorDescription ?? 'User declined the authorization request',
+            'state' => $state,
+        ], 403);
+    }
 }
