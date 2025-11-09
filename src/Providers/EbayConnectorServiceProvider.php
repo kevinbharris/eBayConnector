@@ -96,6 +96,13 @@ class EbayConnectorServiceProvider extends ServiceProvider
                 dirname(__DIR__, 2) . '/publishable/assets' => public_path('vendor/ebayconnector'),
             ], 'ebayconnector-assets');
         }
+
+        // Inject the CSS into the Bagisto admin layout
+		view()->composer('*', function ($view) {
+			$view->getFactory()->startPush('styles');
+			echo '<link rel="stylesheet" href="' . asset('vendor/ebayconnector/css/app.css') . '">';
+			$view->getFactory()->stopPush();
+		});
         
         // Register event listeners
         $this->registerEventListeners();
