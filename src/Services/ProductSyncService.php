@@ -201,7 +201,19 @@ class ProductSyncService
         // Add product attributes
         if ($product->attribute_family) {
             foreach ($product->attribute_values as $attributeValue) {
-                $aspects[$attributeValue->attribute->name] = [$attributeValue->value];
+                // Determine the actual value from various value types
+                $value = $attributeValue->text_value 
+                    ?? $attributeValue->boolean_value 
+                    ?? $attributeValue->integer_value 
+                    ?? $attributeValue->float_value 
+                    ?? $attributeValue->date_value 
+                    ?? $attributeValue->datetime_value 
+                    ?? $attributeValue->json_value;
+                
+                // Only add aspects with non-null and non-empty values
+                if (!is_null($value) && $value !== '') {
+                    $aspects[$attributeValue->attribute->name] = [$value];
+                }
             }
         }
 
