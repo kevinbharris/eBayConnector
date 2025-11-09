@@ -29,6 +29,9 @@ $requiredDirs = [
     'resources/views/admin',
     'resources/lang/en',
     'publishable/config',
+    'publishable/assets',
+    'publishable/assets/css',
+    'publishable/assets/fonts/ebay',
 ];
 
 $dirTest = true;
@@ -308,6 +311,74 @@ if ($licenseTest) {
     echo "✗ FAILED\n";
     $failed++;
 }
+
+// Test 11: Check assets (icon font)
+echo "Test 11: Assets (Icon Font)... ";
+$assetsTest = true;
+
+// Check for assets directory
+if (!is_dir('publishable/assets')) {
+    $errors[] = "Missing publishable/assets directory";
+    $assetsTest = false;
+}
+
+// Check for font files
+$requiredFontFiles = [
+    'publishable/assets/fonts/ebay/ebay-icons.eot',
+    'publishable/assets/fonts/ebay/ebay-icons.woff2',
+    'publishable/assets/fonts/ebay/ebay-icons.woff',
+    'publishable/assets/fonts/ebay/ebay-icons.ttf',
+    'publishable/assets/fonts/ebay/ebay-icons.svg',
+];
+
+foreach ($requiredFontFiles as $fontFile) {
+    if (!file_exists($fontFile)) {
+        $errors[] = "Missing font file: $fontFile";
+        $assetsTest = false;
+    }
+}
+
+// Check for CSS file
+if (!file_exists('publishable/assets/css/ebay-icons.css')) {
+    $errors[] = "Missing CSS file: publishable/assets/css/ebay-icons.css";
+    $assetsTest = false;
+} else {
+    // Validate CSS content
+    $cssContent = file_get_contents('publishable/assets/css/ebay-icons.css');
+    if (strpos($cssContent, '@font-face') === false) {
+        $errors[] = "CSS file doesn't contain @font-face definition";
+        $assetsTest = false;
+    }
+    if (strpos($cssContent, '.icon-ebay') === false) {
+        $errors[] = "CSS file doesn't contain .icon-ebay class";
+        $assetsTest = false;
+    }
+    if (strpos($cssContent, 'ebay-icons') === false) {
+        $errors[] = "CSS file doesn't reference ebay-icons font family";
+        $assetsTest = false;
+    }
+}
+
+// Check that menu.php uses the icon-ebay class
+$menuConfig = include 'publishable/config/menu.php';
+if (is_array($menuConfig) && isset($menuConfig[0]['icon'])) {
+    if ($menuConfig[0]['icon'] !== 'icon-ebay') {
+        $errors[] = "Menu config doesn't use 'icon-ebay' class";
+        $assetsTest = false;
+    }
+} else {
+    $errors[] = "Menu config structure is invalid";
+    $assetsTest = false;
+}
+
+if ($assetsTest) {
+    echo "✓ PASSED\n";
+    $passed++;
+} else {
+    echo "✗ FAILED\n";
+    $failed++;
+}
+
 
 // Summary
 echo "\n====================================\n";
