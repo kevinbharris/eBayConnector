@@ -193,14 +193,51 @@ class ProductSyncService
 
     /**
      * Prepare product aspects/attributes.
+     * 
+     * Maps Bagisto product attributes to recognized eBay aspect keys for the office chair category.
+     * 
+     * eBay Aspect Mapping:
+     * This mapping defines which Bagisto attributes should be sent to eBay and what eBay aspect
+     * names they should use. Only attributes listed in this mapping will be included in the API payload.
+     * 
+     * Bagisto Attribute Name => eBay Aspect Key
+     * - 'color' or 'Color' => 'Color'
+     * - 'material' or 'Material' => 'Material'
+     * - 'brand' or 'Brand' => 'Brand'
+     * - 'features' or 'Features' => 'Features'
+     * - 'model' or 'Model' => 'Model'
+     * - 'type' or 'Type' => 'Type'
+     * 
+     * To add more supported aspects, update the $aspectMapping array below.
+     * Internal/custom attributes like 'SKU', 'Short Description', 'URL Key', 'Meta Title', etc.
+     * are intentionally excluded to avoid sending unrecognized aspects to eBay.
      */
     protected function prepareProductAspects(Product $product): array
     {
+        // Mapping from Bagisto attribute names to eBay aspect keys
+        // Keys are lowercase for case-insensitive matching
+        $aspectMapping = [
+            'color' => 'Color',
+            'material' => 'Material',
+            'brand' => 'Brand',
+            'features' => 'Features',
+            'model' => 'Model',
+            'type' => 'Type',
+        ];
+        
         $aspects = [];
         
         // Add product attributes
         if ($product->attribute_family) {
             foreach ($product->attribute_values as $attributeValue) {
+                $attributeName = $attributeValue->attribute->name;
+                $attributeNameLower = strtolower($attributeName);
+                
+                // Only process attributes that are in our mapping
+                if (!isset($aspectMapping[$attributeNameLower])) {
+                    continue;
+                }
+                
                 // Determine the actual value from various value types
                 $value = $attributeValue->text_value 
                     ?? $attributeValue->boolean_value 
@@ -212,7 +249,8 @@ class ProductSyncService
                 
                 // Only add aspects with non-null and non-empty values
                 if (!is_null($value) && $value !== '') {
-                    $aspects[$attributeValue->attribute->name] = [$value];
+                    $ebayAspectKey = $aspectMapping[$attributeNameLower];
+                    $aspects[$ebayAspectKey] = [$value];
                 }
             }
         }
