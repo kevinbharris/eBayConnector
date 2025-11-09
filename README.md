@@ -101,16 +101,24 @@ Obtain your eBay API credentials from the [eBay Developer Portal](https://develo
 
 ### 2. Configure via Admin Panel
 
-1. Navigate to **Admin Panel → eBay Connector → Configuration**
-2. Enter your eBay API credentials
-3. Select the environment (Sandbox or Production)
-4. Configure synchronization settings
-5. Test the connection
-6. Save the configuration
+1. Navigate to **Admin Panel → Settings → Configuration**
+2. In the left sidebar, click on **Sales**
+3. Scroll down to find **eBay Connector** in the Carriers section
+4. Enter your eBay API credentials
+5. Select the environment (Sandbox or Production)
+6. Configure synchronization settings (auto-sync, intervals, etc.)
+7. Configure product sync settings (images, inventory, pricing, etc.)
+8. Configure order sync settings (status, tracking, customer creation)
+9. Configure logging settings
+10. Save the configuration
 
-### 3. Environment Variables
+**Note**: The configuration is now fully integrated with Bagisto's standard configuration system and supports channel-based settings.
 
-Alternatively, you can configure the connector using environment variables in your `.env` file:
+For more details on the configuration migration, see [CONFIGURATION_MIGRATION.md](CONFIGURATION_MIGRATION.md).
+
+### 3. Environment Variables (Optional)
+
+You can still use environment variables for default values. These are defined in `publishable/config/ebayconnector.php` and serve as fallbacks:
 
 ```env
 EBAY_CONNECTOR_ENABLED=true
